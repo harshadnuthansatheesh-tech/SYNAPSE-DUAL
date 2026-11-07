@@ -1,0 +1,14 @@
+Item #,Component Name,Category,Quantity,Est. Unit Cost (USD),Total Cost (USD),Purpose / System Role
+1,ESP32 DevKit V1 Board,Microcontroller,2,4.5,9.0,MCU #1 (Haptic Navigation) & MCU #2 (Iron Man Gauntlet telemetry)
+2,BNO085 9-Axis IMU Sensor,Sensor,1,15.0,15.0,Absolute orientation & spatial matrix calculation (Haptic Sleeve)
+3,MPU6050 6-Axis IMU Module,Sensor,1,2.5,2.5,Wrist gesture and telemetry tracking (Iron Man Gauntlet)
+4,HC-SR04P Ultrasonic Sensors,Sensor,4,1.5,6.0,360-degree obstacle detection array (Neckband)
+5,Sharp GP2Y0A02YK0F IR Sensor,Sensor,1,9.0,9.0,Long-range forward distance verification
+6,3V Coin ERM Vibration Motors,Actuator,4,1.0,4.0,Directional haptic feedback array (Stitched Arm Sleeve)
+7,AO3400A N-Channel MOSFETs (SOT-23),Semiconductor,4,0.2,0.8,Logic-level low-side motor switching drivers
+8,1N5819 Schottky Diodes,Semiconductor,4,0.1,0.4,Flyback protection across motor terminals
+9,3.7V 1000mAh 1S LiPo Battery,Power Supply,1,6.0,6.0,Main rechargeable battery power source
+10,MT3608 DC-DC Step-Up Boost Module,Power Supply,1,1.5,1.5,Boost 3.7V LiPo output to stable 5V system rail
+11,TP4056 Micro-USB LiPo Charger Board,Power Supply,1,1.0,1.0,Battery protection and USB charging management
+12,Resistors (100Ω & 100kΩ Assortment),Passive Components,10,0.05,0.5,MOSFET Gate current limiting & pull-down configuration
+13,Prototyping Perfboard & Jumpers,Hardware / Wiring,1,5.0,5.0,"Perfboard substrate, wire harness, and 10-pin removable collar cable"

@@ -1,0 +1,59 @@
+#include <Wire.h>
+#include <Adafruit_BNO08x.h>
+
+// BNO085 Setup
+Adafruit_BNO08x bno08x(-1);
+sh2_SensorValue_t sensorValue;
+
+// Neckband Ultrasonic Pins (Front, Rear, Left, Right)
+const int TRIG_PINS[4]  = {4, 5, 16, 17};
+const int ECHO_PINS[4]  = {18, 19, 23, 25};
+const int MOTOR_PINS[4] = {12, 13, 14, 15};
+
+long getDistance(int trig, int echo) {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  long duration = pulseIn(echo, HIGH, 25000); // 25ms timeout (~4 meters max)
+  return (duration == 0) ? 999 : (duration * 0.034 / 2);
+}
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(21, 22); // I2C SDA, SCL
+
+  // Initialize BNO085
+  if (!bno08x.begin_I2C()) {
+    Serial.println("Failed to find BNO085 chip");
+    while (1) { delay(10); }
+  }
+  
+  bno08x.enableReport(SH2_ARVR_STABILIZED_RV);
+
+  // Initialize Pins
+  for(int i = 0; i < 4; i++) {
+    pinMode(TRIG_PINS[i], OUTPUT);
+    pinMode(ECHO_PINS[i], INPUT);
+    pinMode(MOTOR_PINS[i], OUTPUT);
+  }
+  Serial.println("Haptic Navigation Core Initialized.");
+}
+
+void loop() {
+  if (bno08x.getSensorEvent(&sensorValue)) {
+    for(int i = 0; i < 4; i++) {
+      long dist = getDistance(TRIG_PINS[i], ECHO_PINS[i]);
+      
+      if (dist < 50) { // Obstacle closer than 50cm
+        // Map distance to PWM speed (closer = stronger vibration)
+        int motorSpeed = map(dist, 5, 50, 255, 100);
+        analogWrite(MOTOR_PINS[i], motorSpeed);
+      } else {
+        analogWrite(MOTOR_PINS[i], 0); // Turn off motor
+      }
+    }
+  }
+  delay(30);
+}
